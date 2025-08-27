@@ -28,12 +28,12 @@ export function Navigation() {
             >
               Projects
             </Link>
-            <Link
+            {/* <Link
               href="/uses"
               className="text-sm sm:text-base text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors"
             >
               Uses
-            </Link>
+            </Link> */}
             <Link
               href="/reading"
               className="text-sm sm:text-base text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors"

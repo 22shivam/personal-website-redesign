@@ -13,11 +13,11 @@ export default function ReadingPage() {
           <div className="space-y-6 text-gray-700">
             <p>A collection of articles, books, and resources I find interesting and worth sharing.</p>
 
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-900">Currently Reading</h2>
               <p>• The Pragmatic Programmer</p>
               <p>• Clean Code</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>

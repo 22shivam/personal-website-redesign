@@ -6,7 +6,7 @@ export function Footer() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="space-y-6">
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link href="#" className="text-gray-600 hover:text-gray-900 underline">
+            {/* <Link href="#" className="text-gray-600 hover:text-gray-900 underline">
               Mastodon
             </Link>
             <Link href="#" className="text-gray-600 hover:text-gray-900 underline">
@@ -17,10 +17,25 @@ export function Footer() {
             </Link>
             <Link href="#" className="text-gray-600 hover:text-gray-900 underline">
               Email
+            </Link> */}
+            <Link href="https://www.linkedin.com/in/shivammgarg" className="text-gray-600 hover:text-gray-900 underline">
+              LinkedIn
+            </Link>
+            <Link href="https://github.com/22shivam" className="text-gray-600 hover:text-gray-900 underline">
+              GitHub
+            </Link>
+            <Link href="https://x.com/smgarg_" className="text-gray-600 hover:text-gray-900 underline">
+              Twitter
+            </Link>
+            <Link href="mailto:shivamgarg2604@gmail.com" className="text-gray-600 hover:text-gray-900 underline">
+              Email
+            </Link>
+            <Link href="/resume.pdf" className="text-gray-600 hover:text-gray-900 underline">
+              Resume
             </Link>
           </div>
 
-          <div className="flex flex-wrap gap-6 text-sm">
+          {/* <div className="flex flex-wrap gap-6 text-sm">
             <Link href="#" className="text-gray-600 hover:text-gray-900 underline">
               RSS
             </Link>
@@ -42,9 +57,9 @@ export function Footer() {
             <Link href="#" className="text-gray-600 hover:text-gray-900 underline">
               Subscribe
             </Link>
-          </div>
+          </div> */}
 
-          <div className="text-sm text-gray-500">© 2012 - 2025 Stefan Zweifel</div>
+          <div className="text-sm text-gray-500">© 2025 Shivam Garg</div>
         </div>
       </div>
     </footer>

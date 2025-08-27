@@ -1,34 +1,8 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ProjectCard } from "@/components/project-card"
+import { projects } from "@/data/projects"
 import Link from "next/link"
-
-const projects = [
-  {
-    id: "laravel-tfa-confirmation",
-    title: "laravel-tfa-confirmation",
-    description: "Protect sensitive routes or actions with a two-factor challenge",
-    color: "bg-orange-200",
-    icon: "🔒",
-    starred: true,
-  },
-  {
-    id: "laravel-backup-restore",
-    title: "laravel-backup-restore",
-    description: "A package to restore database backups made with spatie/laravel-backup.",
-    color: "bg-teal-200",
-    icon: "🔄",
-    starred: true,
-  },
-  {
-    id: "git-auto-commit-action",
-    title: "git-auto-commit-action",
-    description: "GitHub Action to automatically commit changed files back to the repository.",
-    color: "bg-pink-200",
-    icon: "🔗",
-    starred: true,
-  },
-]
 
 export default function ProjectsPage() {
   return (
@@ -40,7 +14,7 @@ export default function ProjectsPage() {
           <div className="space-y-6">
             <h1 className="text-3xl font-bold text-gray-900">Projects</h1>
 
-            <div className="space-y-4 text-gray-700 leading-relaxed">
+            {/* <div className="space-y-4 text-gray-700 leading-relaxed">
               <p>
                 As a developer I run into problems every day. Whenever possible, I try to publish my solutions as open
                 source software so others can benefit and build upon them.
@@ -82,7 +56,7 @@ export default function ProjectsPage() {
                 </Link>
                 .
               </p>
-            </div>
+            </div> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
