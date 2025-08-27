@@ -85,9 +85,11 @@ export default function ProjectsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <div key={project.id} className="w-full max-w-sm">
+                <ProjectCard project={project} />
+              </div>
             ))}
           </div>
         </div>

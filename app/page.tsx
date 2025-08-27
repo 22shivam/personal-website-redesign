@@ -171,9 +171,11 @@ export default function HomePage() {
 
         <section className="space-y-4 sm:space-y-6">
           <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Projects</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <div key={project.id} className="w-full max-w-sm">
+                <ProjectCard project={project} />
+              </div>
             ))}
           </div>
         </section>
