@@ -6,7 +6,7 @@ export function AboutSection() {
         <a href="#" className="underline">
           AGI Labs
         </a>{" "}
-        as a Software Engineer after completing my B.S. in Computer Science and Mathematics. I'm a Herman B. Wells Scholar (4-year full ride scholarship).
+        as a Software Engineer after completing my B.S. in Computer Science and Mathematics, for which I had received a Herman B. Wells Scholarship (a 4-year full ride scholarship).
       </p>
 
       <p>
