@@ -20,6 +20,30 @@ const selectedWriting = [
   // { date: "01/2024", title: "Scaling Educational Platforms: Lessons from TestPrep International", url: "#" },
 ]
 
+const selectedExperiences = [
+  {
+    period: "July 2025 – Present",
+    title: "Software Engineer",
+    company: "AGI Labs",
+    description:
+      "Built automated payments system via Stripe API, saving 15-20 hrs/week. Developed scalable ad-tech analytics pipeline with <1% sync failure.",
+  },
+  {
+    period: "Nov 2021 – May 2022",
+    title: "Software Engineer & Co-founder",
+    company: "Polychain",
+    description:
+      "Launched multi-chain crypto checkout platform with NFT showcase. Drove adoption to 10k+ users with viral growth strategies.",
+  },
+  {
+    period: "July 2021 – Nov 2021",
+    title: "Software Engineer & Co-founder",
+    company: "Streamling",
+    description:
+      "Built decentralized video streaming platform with creator tokenization. Secured ~$6k funding and IU Startup Accelerator acceptance.",
+  },
+]
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
@@ -28,7 +52,9 @@ export default function HomePage() {
       <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 space-y-8 sm:space-y-12 lg:space-y-16">
         <section className="space-y-4 sm:space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-          <Image className="rounded-lg" src="/chosen.jpeg" alt="Shivam Garg" width={64} height={64} />
+            <div className="flex justify-center sm:justify-start">
+              <Image className="rounded-lg" src="/chosen.jpeg" alt="Shivam Garg" width={64} height={64} />
+            </div>
             <div className="text-center sm:text-left">
               <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-1">Shivam Garg</h1>
               <p className="text-sm sm:text-base text-gray-600">Software Engineer</p>
@@ -59,7 +85,23 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* <section className="space-y-3 sm:space-y-4">
+        <section className="space-y-4 sm:space-y-6">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Experience</h2>
+          <div className="space-y-4 sm:space-y-6">
+            {selectedExperiences.map((experience, index) => (
+              <div key={index} className="space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                  <h3 className="text-sm sm:text-base font-medium text-gray-900">{experience.title}</h3>
+                  <span className="text-sm text-gray-600">at {experience.company}</span>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-500 font-mono">{experience.period}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{experience.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="space-y-3 sm:space-y-4">
           <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Writing</h2>
           <div className="space-y-2 sm:space-y-3">
             {selectedWriting.map((article, index) => (
@@ -71,7 +113,7 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </section> */}
+        </section>
 
         <section className="space-y-4 sm:space-y-6">
           <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Projects</h2>
