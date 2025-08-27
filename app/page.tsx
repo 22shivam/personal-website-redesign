@@ -97,17 +97,17 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <main className="max-w-2xl mx-auto px-6 py-16 space-y-16">
-        <section className="space-y-6">
-          <div className="flex items-start gap-4">
-            <div className="w-16 h-16 bg-green-400 rounded-lg flex-shrink-0"></div>
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900 mb-1">Shivam Garg</h1>
-              <p className="text-gray-600">Software Engineer & CS Student</p>
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 space-y-8 sm:space-y-12 lg:space-y-16">
+        <section className="space-y-4 sm:space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+            <div className="w-16 h-16 sm:w-16 sm:h-16 bg-green-400 rounded-lg flex-shrink-0 mx-auto sm:mx-0"></div>
+            <div className="text-center sm:text-left">
+              <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-1">Shivam Garg</h1>
+              <p className="text-sm sm:text-base text-gray-600">Software Engineer & CS Student</p>
             </div>
           </div>
 
-          <div className="space-y-4 text-gray-700 leading-relaxed">
+          <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-gray-700 leading-relaxed">
             <p>
               I'm currently working at{" "}
               <a href="#" className="underline">
@@ -137,9 +137,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-medium text-gray-900">On the web</h2>
-          <div className="flex gap-4 text-gray-600">
+        <section className="space-y-3 sm:space-y-4">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900">On the web</h2>
+          <div className="flex flex-wrap gap-3 sm:gap-4 text-sm sm:text-base text-gray-600">
             <a href="#" className="underline hover:text-gray-900">
               LinkedIn
             </a>
@@ -155,13 +155,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-lg font-medium text-gray-900">Selected Writing</h2>
-          <div className="space-y-3">
+        <section className="space-y-3 sm:space-y-4">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Writing</h2>
+          <div className="space-y-2 sm:space-y-3">
             {selectedWriting.map((article, index) => (
-              <div key={index} className="flex gap-4 text-sm">
-                <span className="text-gray-500 w-16 flex-shrink-0">{article.date}</span>
-                <a href={article.url} className="text-gray-700 underline hover:text-gray-900">
+              <div key={index} className="flex flex-col sm:flex-row sm:gap-4 text-xs sm:text-sm">
+                <span className="text-gray-500 sm:w-16 sm:flex-shrink-0 font-mono">{article.date}</span>
+                <a href={article.url} className="text-gray-700 underline hover:text-gray-900 mt-1 sm:mt-0">
                   {article.title}
                 </a>
               </div>
@@ -169,9 +169,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="space-y-6">
-          <h2 className="text-lg font-medium text-gray-900">Selected Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className="space-y-4 sm:space-y-6">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Projects</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
