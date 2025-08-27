@@ -25,22 +25,29 @@ const selectedExperiences = [
     period: "July 2025 – Present",
     title: "Software Engineer",
     company: "AGI Labs",
-    description:
-      "Built automated payments system via Stripe API, saving 15-20 hrs/week. Developed scalable ad-tech analytics pipeline with <1% sync failure.",
+    description: [
+      "Built an automated payments and invoicing system via the Stripe API, saving 15–20 hrs/week in manual work for our client, MediaTeam, a marketing agency.",
+      "Developed a scalable ad-tech analytics pipeline pulling spend/ROI data from Google Ads, Meta, and TikTok APIs; providing MediaTeam with dashboards with <1% sync failure and 5-min data freshness.",
+    ],
   },
   {
-    period: "Nov 2021 – May 2022",
-    title: "Software Engineer & Co-founder",
+    period: "November 2021 – May 2022",
+    title: "Software Engineer and Co-founder",
     company: "Polychain",
-    description:
-      "Launched multi-chain crypto checkout platform with NFT showcase. Drove adoption to 10k+ users with viral growth strategies.",
+    description: [
+      "Launched multi-chain crypto checkout platform with NFT showcase features, enabling simple link-based transfers and embeddable merchant widgets. (React, Node.js, MongoDB, AWS)",
+      "Deployed with EC2 Auto Scaling + Docker, CI/CD pipelines, and monitoring via Prometheus/Grafana.",
+      "Drove adoption to 10k+ users by pairing technical execution with early viral growth strategies.",
+    ],
   },
   {
-    period: "July 2021 – Nov 2021",
-    title: "Software Engineer & Co-founder",
+    period: "July 2021 – November 2021",
+    title: "Software Engineer and Co-founder",
     company: "Streamling",
-    description:
-      "Built decentralized video streaming platform with creator tokenization. Secured ~$6k funding and IU Startup Accelerator acceptance.",
+    description: [
+      "Built a decentralized video streaming platform with creator tokenization using DeSo blockchain + Media Network; reduced egress costs by leveraging peer-to-peer routing.",
+      "Secured ~$6k in funding and acceptance into IU's Startup Accelerator.",
+    ],
   },
 ]
 
@@ -87,15 +94,24 @@ export default function HomePage() {
 
         <section className="space-y-4 sm:space-y-6">
           <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Experience</h2>
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-6 sm:space-y-8">
             {selectedExperiences.map((experience, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                  <h3 className="text-sm sm:text-base font-medium text-gray-900">{experience.title}</h3>
-                  <span className="text-sm text-gray-600">at {experience.company}</span>
+              <div key={index} className="space-y-3 sm:space-y-4">
+                <div className="space-y-1 sm:space-y-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                    <h3 className="text-sm sm:text-base font-medium text-gray-900">{experience.title}</h3>
+                    <span className="text-sm text-gray-600">at {experience.company}</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-gray-500 font-mono">{experience.period}</p>
                 </div>
-                <p className="text-xs sm:text-sm text-gray-500 font-mono">{experience.period}</p>
-                <p className="text-sm text-gray-700 leading-relaxed">{experience.description}</p>
+                <ul className="space-y-2 sm:space-y-3">
+                  {experience.description.map((item, itemIndex) => (
+                    <li key={itemIndex} className="text-sm text-gray-600 leading-relaxed flex">
+                      <span className="text-gray-400 mr-2 sm:mr-3">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
