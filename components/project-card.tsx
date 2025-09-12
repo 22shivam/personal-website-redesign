@@ -32,8 +32,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <p className="text-sm text-gray-600 leading-relaxed mb-2">{project.description}.<br /> </p>
         {/* keep some vertical space between the description and the links. not a full line break, but some margin */}
         {project.links.map((link) => (
-            <Link key={link.label} href={link.url} className="text-sm text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors">
-              {link.label }{"  |  "}
+            <Link key={link.label} href={link.url} className="text-base font-light text-gray-800 hover:text-gray-900 underline decoration-gray-400 hover:decoration-gray-700 transition-colors">
+              {link.label}{" |  "}
             </Link>
           ))}
         {/* </p> */}
