@@ -6,6 +6,9 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Shivam Garg',
   description: 'Personal website of Shivam Garg',
+  icons: {
+    icon: '/icon.svg',
+  },
 }
 
 export default function RootLayout({
