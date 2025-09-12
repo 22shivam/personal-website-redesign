@@ -12,7 +12,7 @@ export const projects = [
       },
       {
         label: "Demo",
-        url: "",
+        url: "https://www.loom.com/share/82819594ca614f6d8b65299e4bfe19fb?sid=9ef41563-5c7b-4a0a-9059-1a2ed17a59c7",
       },
       {
         label: "Website",
@@ -36,8 +36,8 @@ export const projects = [
     ],
   },
   {
-    id: "polychain",
-    title: "Polychain",
+    id: "Spindl",
+    title: "Spindl",
     description: "Multi-chain crypto checkout platform with NFT showcase features and embeddable merchant widgets",
     color: "bg-pink-200",
     icon: "⛓️",
@@ -49,11 +49,11 @@ export const projects = [
       },
       {
         label: "Demo",
-        url: "",
+        url: "https://www.loom.com/share/133fea097d354ea6ae44d82c86f5bdb8?sid=33a8f195-685e-4dd9-a39c-ba4a80c879df",
       },
       {
         label: "Website",
-        url: "polychain.vercel.app/",
+        url: "https://spindl.shivamg.com",
       },
     ],
   },
