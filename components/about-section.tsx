@@ -14,18 +14,6 @@ export function AboutSection() {
         that save 15-20 hours per week to LLM-powered video processing pipelines. I've co-founded two startups,
         Spindl and Streamling, gaining 10k+ users and securing funding.
       </p>
-
-      <p>
-        On this personal website I write about how I{" "}
-        <a href="#" className="underline">
-          solve complex problems
-        </a>{" "}
-        in distributed systems, machine learning, and full-stack development, how I build{" "}
-        <a href="#" className="underline">
-          scalable applications
-        </a>{" "}
-        and my experiences in the startup ecosystem.
-      </p>
     </div>
   )
 }
