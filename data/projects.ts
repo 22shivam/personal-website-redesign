@@ -2,9 +2,23 @@ export const projects = [
   {
     id: "llm-podcast-clipping",
     title: "LLM-Powered Podcast Clipping",
-    description: "Auto-generates 10-15 short viral clips from long podcasts using Whisper transcription + Gemini LLM",
+    description: "Clippy transforms long podcasts into 10–15 punchy 30–60s clips by combining WhisperX transcription with an LLM that selects the most engaging Q&A and story moments. Active-speaker detection keeps faces perfectly framed while captions are auto-generated and burned in for vertical, social-ready output. A cloud pipeline—S3 storage, Inngest queues, and Modal GPU workers—handles the heavy lifting asynchronously, and a Next.js web app lets users upload, track progress, preview, and download their clips.",
     color: "bg-orange-200",
     icon: "🎬",
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/clippy",
+      },
+      {
+        label: "Demo",
+        url: "",
+      },
+      {
+        label: "Website",
+        url: "https://clippy-seven.vercel.app/",
+      },
+    ],
     starred: true,
   },
   {
@@ -14,6 +28,12 @@ export const projects = [
     color: "bg-teal-200",
     icon: "🔒",
     starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/distributed-lock-etcd",
+      },
+    ],
   },
   {
     id: "polychain",
@@ -22,6 +42,20 @@ export const projects = [
     color: "bg-pink-200",
     icon: "⛓️",
     starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/polychain",
+      },
+      {
+        label: "Demo",
+        url: "",
+      },
+      {
+        label: "Website",
+        url: "polychain.vercel.app/",
+      },
+    ],
   },
   {
     id: "streamling",
@@ -30,6 +64,12 @@ export const projects = [
     color: "bg-blue-200",
     icon: "📺",
     starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/streamling",
+      },
+    ],
   },
   {
     id: "spero-ml",
@@ -38,6 +78,16 @@ export const projects = [
     color: "bg-green-200",
     icon: "🧠",
     starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/Spero",
+      },
+      {
+        label: "Demo",
+        url: "https://youtu.be/X1XI5dMyRJs",
+      },
+    ],
   },
   {
     id: "healera-iot",
@@ -46,6 +96,7 @@ export const projects = [
     color: "bg-indigo-200",
     icon: "🚰",
     starred: true,
+    links: [],
   },
   {
     id: "testprep-international",
@@ -54,5 +105,6 @@ export const projects = [
     color: "bg-red-200",
     icon: "📚",
     starred: true,
+    links: [],
   },
 ]

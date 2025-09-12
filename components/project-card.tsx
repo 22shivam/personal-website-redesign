@@ -1,3 +1,6 @@
+import Link from "next/link"
+
+
 interface Project {
   id: string
   title: string
@@ -5,6 +8,7 @@ interface Project {
   color: string
   icon: string
   starred: boolean
+  links: { label: string; url: string }[]
 }
 
 interface ProjectCardProps {
@@ -24,7 +28,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <h3 className="font-medium text-gray-900">{project.title}</h3>
           {project.starred && <span className="text-yellow-500">⭐</span>}
         </div>
-        <p className="text-sm text-gray-600 leading-relaxed">{project.description}</p>
+        {/* new line after description */}
+        <p className="text-sm text-gray-600 leading-relaxed mb-2">{project.description}.<br /> </p>
+        {/* keep some vertical space between the description and the links. not a full line break, but some margin */}
+        {project.links.map((link) => (
+            <Link key={link.label} href={link.url} className="text-sm text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors">
+              {link.label }{"  |  "}
+            </Link>
+          ))}
+        {/* </p> */}
       </div>
     </div>
   )

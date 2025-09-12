@@ -56,7 +56,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 space-y-8 sm:space-y-12 lg:space-y-16">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 space-y-8 sm:space-y-12 lg:space-y-16">
         <section className="space-y-4 sm:space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-start gap-4">
             <div className="flex justify-center sm:justify-start">
