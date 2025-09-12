@@ -33,7 +33,7 @@ const selectedExperiences = [
   {
     period: "November 2021 – May 2022",
     title: "Software Engineer and Co-founder",
-    company: "Polychain",
+    company: "Spindl",
     description: [
       "Launched multi-chain crypto checkout platform with NFT showcase features, enabling simple link-based transfers and embeddable merchant widgets. (React, Node.js, MongoDB, AWS)",
       "Deployed with EC2 Auto Scaling + Docker, CI/CD pipelines, and monitoring via Prometheus/Grafana.",

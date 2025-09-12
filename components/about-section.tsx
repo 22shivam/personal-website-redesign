@@ -12,7 +12,7 @@ export function AboutSection() {
       <p>
         I regularly build scalable systems, from automated payment systems
         that save 15-20 hours per week to LLM-powered video processing pipelines. I've co-founded two startups,
-        Polychain and Streamling, gaining 10k+ users and securing funding.
+        Spindl and Streamling, gaining 10k+ users and securing funding.
       </p>
 
       <p>
