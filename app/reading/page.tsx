@@ -13,11 +13,19 @@ export default function ReadingPage() {
           <div className="space-y-6 text-gray-700">
             <p>A collection of articles, books, and resources I find interesting and worth sharing.</p>
 
-            {/* <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900">Currently Reading</h2>
-              <p>• The Pragmatic Programmer</p>
-              <p>• Clean Code</p>
-            </div> */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900">Great Academic books:</h2>
+              <p>• Linear Algebra Done Right by Axler</p>
+              <p>• Theory of Computation by Michael Sipser</p>
+              <p>• Principles of Mathematical Analysis by Rudin</p>
+            </div>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900">Great books:</h2>
+              <p>• Men of Mathematics by E.T. Bell</p>
+              <p>• The Wright Brothers by David McCullough</p>
+              <p>• The Idea Factory: Bell Labs and the Great Age of American Innovation by Jon Gertner</p>
+              <p>• Gödel, Escher, Bach: An Eternal Golden Braid by Douglas Hofstadter</p>
+            </div>
           </div>
         </div>
       </main>
