@@ -22,6 +22,16 @@ const selectedWriting = [
 
 const selectedExperiences = [
   {
+    period: "August 2025 – Present",
+    title: "Founding Engineer",
+    company: "Scowtt",
+    description: [
+      "Architected and productionized config-driven general Vertex AI pipelines, replacing FDE-style per-client custom code with standardized deployments for hourly data ingestion, online inference, and weekly retraining—cutting enterprise customer onboarding time from 4 weeks to 2 and enabling parallel multi-client launches.",
+      "Built and deployed lead-value prediction models using GA4 and CRM features, streaming real-time scores via Cloud Run into Meta and Google Ads Conversion APIs for automated bid optimization.",
+      "Worked directly with two enterprise clients to translate ad optimization goals into reusable ML systems, driving +59% ROAS in Search and +80% in PMax and supporting Scowtt’s $60M Series A."
+    ],
+  },
+  {
     period: "July 2025 – Present",
     title: "Software Engineer",
     company: "AGI Labs",
@@ -40,15 +50,15 @@ const selectedExperiences = [
       "Drove adoption to 10k+ users by pairing technical execution with early viral growth strategies.",
     ],
   },
-  {
-    period: "July 2021 – November 2021",
-    title: "Software Engineer and Co-founder",
-    company: "Streamling",
-    description: [
-      "Built a decentralized video streaming platform with creator tokenization using DeSo blockchain + Media Network; reduced egress costs by leveraging peer-to-peer routing.",
-      "Secured ~$6k in funding and acceptance into IU's Startup Accelerator.",
-    ],
-  },
+  // {
+  //   period: "July 2021 – November 2021",
+  //   title: "Software Engineer and Co-founder",
+  //   company: "Streamling",
+  //   description: [
+  //     "Built a decentralized video streaming platform with creator tokenization using DeSo blockchain + Media Network; reduced egress costs by leveraging peer-to-peer routing.",
+  //     "Secured ~$6k in funding and acceptance into IU's Startup Accelerator.",
+  //   ],
+  // },
 ]
 
 export default function HomePage() {

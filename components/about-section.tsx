@@ -4,15 +4,9 @@ export function AboutSection() {
       <p>
         I'm currently working at{" "}
         <a href="#" className="underline">
-          AGI Labs
+          Scowtt
         </a>{" "}
-        as a Software Engineer after completing my B.S. in Computer Science and Mathematics, for which I had received a Herman B. Wells Scholarship (a 4-year full ride scholarship).
-      </p>
-
-      <p>
-        I regularly build scalable systems, from automated payment systems
-        that save 15-20 hours per week to LLM-powered video processing pipelines. I've co-founded two startups,
-        Spindl and Streamling, gaining 10k+ users and securing funding.
+        (Series A) as a Founding Engineer.
       </p>
     </div>
   )

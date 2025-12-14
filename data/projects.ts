@@ -36,6 +36,48 @@ export const projects = [
     ],
   },
   {
+    id: "Recode",
+    title: "Recode",
+    description: "An AI DevOps Agent that eliminates downtime by giving your application the ability to fix itself (it does this by automatically detecting errors in production, reading logs, coming up with a fix and deploying it). ",
+    color: "bg-purple-200",
+    icon: "",
+    starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/recode",
+      },
+    ],
+  },
+  {
+    id: "PatchPilot",
+    title: "PatchPilot",
+    description: "An autonomous AI engineer/agent that automatically fixes bugs and adds features whenever a GitHub issue is raised, powered by Daytona sandboxes.",
+    color: "bg-purple-200",
+    icon: "",
+    starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/daytona-hacksprint-issue-fixer",
+      },
+    ],
+  },
+  {
+    id: "ImmunAI",
+    title: "ImmunAI",
+    description: "An adversarial security platform powered by an autonomous attack agent that red-teams production AI agents. It autonomously discovers vulnerabilities, builds exploits, and generates novel attack vectors for agents in real time.",
+    color: "bg-indigo-200",
+    icon: "",
+    starred: true,
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/22shivam/immun-ai",
+      },
+    ],
+  },
+  {
     id: "Spindl",
     title: "Spindl",
     description: "Multi-chain crypto checkout platform with NFT showcase features and embeddable merchant widgets",
@@ -74,7 +116,7 @@ export const projects = [
   {
     id: "spero-ml",
     title: "Spero: Depression Diagnosis",
-    description: "LSTM Network + CNN (95% accuracy) for early diagnosis of major depressive disorder",
+    description: "LSTM Network + CNN (95% accuracy) for early diagnosis of major depressive disorder. Published in a journal and won a bunch of research competitions",
     color: "bg-green-200",
     icon: "🧠",
     starred: true,

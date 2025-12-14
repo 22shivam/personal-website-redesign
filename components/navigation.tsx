@@ -10,12 +10,12 @@ export function Navigation() {
           </Link>
 
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:gap-8">
-            <Link
+            {/* <Link
               href="/about"
               className="text-sm sm:text-base text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors"
             >
               About
-            </Link>
+            </Link> */}
             <Link
               href="/articles"
               className="text-sm sm:text-base text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors"
