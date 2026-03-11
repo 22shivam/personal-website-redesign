@@ -1,0 +1,185 @@
+---
+
+title: "I Thought I Was Doing a Safe Refactor of a Machine Learning Codebase. Then Inlining Changed My Results."
+date: "2026-03-10"
+description: "A small refactor changed floating-point results because inlining exposed a multiply-add that the compiler could fuse into FMA under fast-math."
+tags: ["ml", "compilers", "debugging"]
+
+---
+
+> **tl;dr**: Inlining a tiny multiply helper changed my program's output. Once the helper was inlined, the compiler could see the full expression `a*b + bias` and, with `-O3 -ffast-math`, fused it into a single FMA instruction. Before the refactor it emitted a multiply and an add separately, which meant two roundings instead of one. That changed the final float by one bit.
+
+I was doing what felt like routine cleanup in an ML codebase: renaming things, moving helpers around, and inlining a couple of tiny functions that no longer seemed worth keeping separate.
+
+Then a regression check failed.
+
+Not a crash. Not a wildly wrong answer. The numbers were just slightly different.
+
+Same inputs, same seed, same machine, same compiler flags. In ML code, tiny floating-point differences can propagate through large tensor computations and show up somewhere that feels completely unrelated to the line you changed, so I dug into it.
+
+After some triage, I isolated the problem to one seemingly harmless refactor: I had inlined a small helper that used to live in a separate file. The math was identical at the source level. The output was not.
+
+Here's what was happening.
+
+## The minimal reproduction
+
+The whole thing came down to a multiply followed by an add. This is the simplified version of the code and you can play around with it [here](https://godbolt.org/#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,selection:(endColumn:46,endLineNumber:5,positionColumn:46,positionLineNumber:5,selectionStartColumn:46,selectionStartLineNumber:5,startColumn:46,startLineNumber:5),source:'%23include+%3Cstdio.h%3E%0A%23include+%3Cstdint.h%3E%0A%23include+%3Cstring.h%3E%0A%0A//+noinline+simulates+what+happens+when+mul+lives+in+a+separate+file+%E2%80%94%0A//+the+compiler+can!'t+see+inside+it+and+can!'t+inline+the+call%0A__attribute__((noinline))%0Afloat+mul(float+a,+float+b)+%7B%0A++++return+a+*+b%3B%0A%7D%0A%0Afloat+mulInline(float+a,+float+b)+%7B%0A++++return+a+*+b%3B%0A%7D%0A%0A//+volatile+prevents+the+compiler+from+computing+these+at+compile+time%0Avolatile+float+x++++%3D+1.23456789f%3B%0Avolatile+float+bias+%3D+1.0f%3B%0A%0Aint+main()+%7B%0A++++float+withInline++++%3D+mulInline(x,+x)+%2B+bias%3B%0A++++float+withoutInline+%3D+mul(x,+x)+++++++%2B+bias%3B%0A%0A++++uint32_t+inlineBits,+noInlineBits%3B%0A++++memcpy(%26inlineBits,+++%26withInline,++++sizeof(float))%3B%0A++++memcpy(%26noInlineBits,+%26withoutInline,+sizeof(float))%3B%0A%0A++++if+(withInline+!!%3D+withoutInline)%0A++++++++printf(%22Results+differ!!%5Cn%22)%3B%0A%0A++++printf(%22Inlined++++:+%25u%5Cn%22,+inlineBits)%3B%0A++++printf(%22Not+inlined:+%25u%5Cn%22,+noInlineBits)%3B%0A%0A++++return+0%3B%0A%7D%0A'),l:'5',n:'0',o:'C%2B%2B+source+%231',t:'0')),k:36.6600133067199,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:armv8-clang1701,filters:(b:'0',binary:'1',binaryObject:'1',commentOnly:'0',debugCalls:'1',demangle:'0',directives:'0',execute:'1',intel:'0',libraryCode:'0',trim:'1',verboseDemangling:'0'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,libs:!(),options:'-O3+-ffast-math',overrides:!(),selection:(endColumn:1,endLineNumber:1,positionColumn:1,positionLineNumber:1,selectionStartColumn:1,selectionStartLineNumber:1,startColumn:1,startLineNumber:1),source:1),l:'5',n:'0',o:'+armv8-a+clang+17.0.1+(Editor+%231)',t:'0')),k:30.006653359946775,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:executor,i:(argsPanelShown:'1',compilationPanelShown:'0',compiler:armv8-clang1701,compilerName:'',compilerOutShown:'0',execArgs:'',execStdin:'',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,libs:!(),options:'-O3+-ffast-math',overrides:!(),runtimeTools:!(),source:1,stdinPanelShown:'1',wrap:'1'),l:'5',n:'0',o:'Executor+armv8-a+clang+17.0.1+(C%2B%2B,+Editor+%231)',t:'0')),k:33.33333333333333,l:'4',n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4):
+
+```c
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+
+// noinline attribute simulates what happens when mul lives 
+// in a separate file -- the compiler can't see inside it 
+// and can't inline the call
+__attribute__((noinline))
+float mul(float a, float b) {
+    return a * b;
+}
+
+// since mulInline is in the same file it is called from, 
+// the compiler can see inside it and can inline the call
+// and make use of the fmadd optimization
+float mulInline(float a, float b) {
+    return a * b;
+}
+
+// volatile prevents the compiler from computing these at compile 
+// time
+volatile float x    = 1.23456789f;
+volatile float bias = 1.0f;
+
+int main() {
+    float withInline    = mulInline(x, x) + bias;
+    float withoutInline = mul(x, x)       + bias;
+
+    uint32_t inlineBits, noInlineBits;
+    memcpy(&inlineBits,   &withInline,    sizeof(float));
+    memcpy(&noInlineBits, &withoutInline, sizeof(float));
+
+    if (withInline != withoutInline)
+        printf("Results differ!\n");
+
+    printf("Inlined    : %u\n", inlineBits);
+    printf("Not inlined: %u\n", noInlineBits);
+
+    return 0;
+}
+```
+
+```bash
+gcc -O3 -ffast-math demo_single.c -o demo && ./demo
+```
+
+```text
+Results differ!
+Inlined    : 1075940301
+Not inlined: 1075940302
+```
+
+The `noinline` attribute is just there to keep the demo self-contained. It simulates the original situation: a helper living in a different `.c` file, where the compiler can't see through the call boundary and therefore can't inline it.
+
+**Note on `volatile`:** `x` and `bias` are marked `volatile` to prevent the compiler from constant-folding the whole computation at compile time. Without that, the compiler can precompute both expressions and bake the answers into the binary, which defeats the point of the demo.
+
+## What changed
+
+The key detail is **FMA**, short for **fused multiply-add**.
+
+Normally, `x * x + bias` is performed as two separate floating-point operations:
+
+```text
+tmp = round(x * x)
+res = round(tmp + bias)
+```
+
+That means the intermediate product gets rounded once, and the final result gets rounded again.
+
+With FMA, the processor computes the multiply and add as a single operation and rounds only once at the end:
+
+```text
+res = round(x * x + bias)
+```
+
+That can produce a different result.
+
+It is not a bug, and it is not less correct. In fact, FMA is usually *more* accurate because it preserves more precision before the final rounding step. But it is different, and during a refactor that difference matters if you're expecting bit-for-bit stability.
+
+With `-ffast-math`, the compiler is allowed to make this transformation when it can see the full expression.
+
+That is exactly what changed here:
+
+* When `mulInline` gets inlined, the compiler sees `x * x + bias` as one expression and can contract it into an FMA.
+* When `mul` stays behind a call boundary, the compiler gets back an already-rounded `float` from the function call and then performs a separate addition.
+
+Same source-level math. Different machine instructions. Different rounding behavior.
+
+## Reading the assembly
+
+Compiling with:
+
+```bash
+gcc -O3 -ffast-math -S demo_single.c -o demo_single.s
+```
+
+and looking at `main`, the two paths differ in exactly the way you'd expect:
+
+```asm
+; withInline = mulInline(x, x) + bias
+ldr    s0, [x8, _x@PAGEOFF]     ; load x
+ldr    s1, [x8, _x@PAGEOFF]     ; load x again
+ldr    s2, [x19, _bias@PAGEOFF] ; load bias
+fmadd  s8, s1, s0, s2           ; x*x + bias, rounded once
+
+; withoutInline = mul(x, x) + bias
+ldr    s0, [x8, _x@PAGEOFF]
+ldr    s1, [x8, _x@PAGEOFF]
+bl     _mul                     ; call mul, returns a rounded float
+ldr    s1, [x19, _bias@PAGEOFF]
+fadd   s9, s1, s0               ; add bias to the already-rounded result
+```
+
+That is the entire "bug".
+
+The inlined path becomes `fmadd`: multiply and add in one instruction, with one rounding.
+
+The non-inlined path becomes a function call plus `fadd`: the multiply happens inside `mul`, returns a rounded `float`, and then the add happens afterward as a separate operation.
+
+To poke at this interactively, check this [Godbolt](https://godbolt.org/#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,selection:(endColumn:46,endLineNumber:5,positionColumn:46,positionLineNumber:5,selectionStartColumn:46,selectionStartLineNumber:5,startColumn:46,startLineNumber:5),source:'%23include+%3Cstdio.h%3E%0A%23include+%3Cstdint.h%3E%0A%23include+%3Cstring.h%3E%0A%0A//+noinline+simulates+what+happens+when+mul+lives+in+a+separate+file+%E2%80%94%0A//+the+compiler+can!'t+see+inside+it+and+can!'t+inline+the+call%0A__attribute__((noinline))%0Afloat+mul(float+a,+float+b)+%7B%0A++++return+a+*+b%3B%0A%7D%0A%0Afloat+mulInline(float+a,+float+b)+%7B%0A++++return+a+*+b%3B%0A%7D%0A%0A//+volatile+prevents+the+compiler+from+computing+these+at+compile+time%0Avolatile+float+x++++%3D+1.23456789f%3B%0Avolatile+float+bias+%3D+1.0f%3B%0A%0Aint+main()+%7B%0A++++float+withInline++++%3D+mulInline(x,+x)+%2B+bias%3B%0A++++float+withoutInline+%3D+mul(x,+x)+++++++%2B+bias%3B%0A%0A++++uint32_t+inlineBits,+noInlineBits%3B%0A++++memcpy(%26inlineBits,+++%26withInline,++++sizeof(float))%3B%0A++++memcpy(%26noInlineBits,+%26withoutInline,+sizeof(float))%3B%0A%0A++++if+(withInline+!!%3D+withoutInline)%0A++++++++printf(%22Results+differ!!%5Cn%22)%3B%0A%0A++++printf(%22Inlined++++:+%25u%5Cn%22,+inlineBits)%3B%0A++++printf(%22Not+inlined:+%25u%5Cn%22,+noInlineBits)%3B%0A%0A++++return+0%3B%0A%7D%0A'),l:'5',n:'0',o:'C%2B%2B+source+%231',t:'0')),k:36.6600133067199,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:armv8-clang1701,filters:(b:'0',binary:'1',binaryObject:'1',commentOnly:'0',debugCalls:'1',demangle:'0',directives:'0',execute:'1',intel:'0',libraryCode:'0',trim:'1',verboseDemangling:'0'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,libs:!(),options:'-O3+-ffast-math',overrides:!(),selection:(endColumn:1,endLineNumber:1,positionColumn:1,positionLineNumber:1,selectionStartColumn:1,selectionStartLineNumber:1,startColumn:1,startLineNumber:1),source:1),l:'5',n:'0',o:'+armv8-a+clang+17.0.1+(Editor+%231)',t:'0')),k:30.006653359946775,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:executor,i:(argsPanelShown:'1',compilationPanelShown:'0',compiler:armv8-clang1701,compilerName:'',compilerOutShown:'0',execArgs:'',execStdin:'',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,libs:!(),options:'-O3+-ffast-math',overrides:!(),runtimeTools:!(),source:1,stdinPanelShown:'1',wrap:'1'),l:'5',n:'0',o:'Executor+armv8-a+clang+17.0.1+(C%2B%2B,+Editor+%231)',t:'0')),k:33.33333333333333,l:'4',n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4) out. Look for `fmadd`. Toggle `-ffast-math` off and watch it disappear.
+
+## Why this matters in ML code
+
+A one-bit difference in one float does not mean your model is broken.
+
+But this exact pattern shows up in hot numerical code all the time: reductions, dot products, accumulators, optimizer updates, and other operations that run over large tensors. Tiny floating-point differences can compound over many operations and surface later in ways that look unrelated to the original refactor.
+
+That is what made this confusing. The change looked structural, not numerical.
+
+It is also worth being clear about what the lesson is *not*. The lesson is not that FMA is bad. FMA is generally better numerically because it rounds once instead of twice.
+
+The lesson is that in floating-point code, seemingly non-semantic refactors can still change results if they change what the optimizer is allowed to see and transform.
+
+## What I took from this
+
+I already knew we were building with `-O3` and `-ffast-math`. What I had not fully internalized was how much freedom those flags give the compiler once an expression becomes visible in one place.
+
+Inlining was not just a stylistic cleanup. It changed the optimizer's view of the program.
+
+That was the part I had underestimated.
+
+In numerical code, whether a helper is visible at its call site is not just an organizational detail. It can affect instruction selection, rounding behavior, and reproducibility. Moving a helper across a file boundary or inlining it during a refactor can expose or hide an optimization opportunity, and with floating-point arithmetic that can change the output.
+
+If your goal is bit-for-bit stability, code structure, in cases like these, is part of the numerical behavior.
+
+## Appendix: a couple of practical notes
+
+If you want the shortest version of the rule here, it is this:
+
+> `-O3` plus `-ffast-math` plus newly visible floating-point expressions can change results, even when the source-level math looks identical.
+
+A couple of details are worth keeping in mind:
+
+* **Turning off `-ffast-math`** usually prevents this specific contraction, because the compiler is no longer free to treat `a*b + c` as an FMA when that would change IEEE-754-observable behavior.
+* **Cross-file boundaries matter** because they can hide the full expression from the optimizer.
+* **LTO (using the `-flto` flag) can remove that barrier** by letting the compiler optimize across translation units at link time.
+

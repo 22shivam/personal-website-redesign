@@ -20,7 +20,7 @@ export function Navigation() {
               href="/articles"
               className="text-sm sm:text-base text-gray-600 hover:text-gray-900 underline decoration-gray-300 hover:decoration-gray-600 transition-colors"
             >
-              Articles
+              Blog
             </Link>
             <Link
               href="/projects"

@@ -3,22 +3,9 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { AboutSection } from "@/components/about-section"
 import { projects } from "@/data/projects"
+import { getAllPosts } from "@/lib/blog"
 import Image from "next/image"
-
-const selectedWriting = [
-  // { date: "12/2024", title: "Building Scalable Ad-Tech Analytics with Multi-API Integration", url: "#" },
-  // { date: "11/2024", title: "LLM-Powered Video Processing: From Podcasts to Viral Clips", url: "#" },
-  // { date: "10/2024", title: "Implementing Fault-Tolerant Distributed Systems with etcd", url: "#" },
-  // { date: "09/2024", title: "Stripe Integration Patterns for B2B SaaS Applications", url: "#" },
-  // { date: "08/2024", title: "Computer Vision for Active Speaker Detection in Video Processing", url: "#" },
-  // { date: "07/2024", title: "Building Multi-Chain Crypto Payment Systems", url: "#" },
-  // { date: "06/2024", title: "Serverless GPU Acceleration with Modal and AWS", url: "#" },
-  // { date: "05/2024", title: "Machine Learning for Depression Diagnosis: LSTM + CNN Approach", url: "#" },
-  // { date: "04/2024", title: "Decentralized Video Streaming with Blockchain Integration", url: "#" },
-  // { date: "03/2024", title: "Docker and Kubernetes for Startup Infrastructure", url: "#" },
-  // { date: "02/2024", title: "Building IoT Solutions with Bluetooth Low Energy", url: "#" },
-  // { date: "01/2024", title: "Scaling Educational Platforms: Lessons from TestPrep International", url: "#" },
-]
+import Link from "next/link"
 
 const selectedExperiences = [
   {
@@ -61,7 +48,9 @@ const selectedExperiences = [
   // },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const recentPosts = getAllPosts().slice(0, 3)
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -102,6 +91,26 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="space-y-3 sm:space-y-4">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Writing</h2>
+          <div className="space-y-2 sm:space-y-3">
+            {recentPosts.length === 0 ? (
+              <p className="text-sm text-gray-500">No posts yet.</p>
+            ) : (
+              recentPosts.map((post) => (
+                <div key={post.slug} className="flex flex-col sm:flex-row sm:gap-4 text-xs sm:text-sm">
+                  <span className="text-gray-500 sm:w-16 sm:flex-shrink-0 font-mono">
+                    {new Date(post.date).toLocaleDateString("en-US", { month: "2-digit", year: "numeric" })}
+                  </span>
+                  <Link href={`/articles/${post.slug}`} className="text-gray-700 underline hover:text-gray-900 mt-1 sm:mt-0">
+                    {post.title}
+                  </Link>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
         <section className="space-y-4 sm:space-y-6">
           <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Experience</h2>
           <div className="space-y-6 sm:space-y-8">
@@ -122,20 +131,6 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="space-y-3 sm:space-y-4">
-          <h2 className="text-base sm:text-lg font-medium text-gray-900">Selected Writing</h2>
-          <div className="space-y-2 sm:space-y-3">
-            {selectedWriting.map((article, index) => (
-              <div key={index} className="flex flex-col sm:flex-row sm:gap-4 text-xs sm:text-sm">
-                <span className="text-gray-500 sm:w-16 sm:flex-shrink-0 font-mono">{article.date}</span>
-                <a href={article.url} className="text-gray-700 underline hover:text-gray-900 mt-1 sm:mt-0">
-                  {article.title}
-                </a>
               </div>
             ))}
           </div>
