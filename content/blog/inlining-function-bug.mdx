@@ -17,7 +17,7 @@ Not a crash. Not a wildly wrong answer. The numbers were just slightly different
 
 Same inputs, same seed, same machine, same compiler flags. In ML code, tiny floating-point differences can propagate through large tensor computations and show up somewhere that feels completely unrelated to the line you changed, so I dug into it.
 
-After some triage, I isolated the problem to one seemingly harmless refactor: I had inlined a small helper that used to live in a separate file. The math was identical at the source level. The output was not.
+After some debugging, I isolated the problem to one seemingly harmless refactor: I had inlined a small helper that used to live in a separate file. The math was identical at the source level. The output was not.
 
 Here's what was happening.
 
