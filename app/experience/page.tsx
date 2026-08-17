@@ -3,17 +3,20 @@ import { Footer } from "@/components/footer"
 
 const experiences = [
   {
-    period: "August 2025 – Present",
+    period: "September 2025 – Present",
     title: "Founding Engineer",
     company: "Scowtt",
     description: [
-      "Architected and productionized config-driven general Vertex AI pipelines, replacing FDE-style per-client custom code with standardized deployments for hourly data ingestion, online inference, and weekly retraining—cutting enterprise customer onboarding time from 4 weeks to 2 and enabling parallel multi-client launches.",
-      "Built and deployed lead-value prediction models using GA4 and CRM features, streaming real-time scores via Cloud Run into Meta and Google Ads Conversion APIs for automated bid optimization.",
-      "Worked directly with two enterprise clients to translate ad optimization goals into reusable ML systems, driving +59% ROAS in Search and +80% in PMax and supporting Scowtt’s $60M Series A."
+      "Built Scowtt's shared distributed ML infrastructure from scratch: config-driven Vertex AI pipelines for ingestion, inference, & retraining that scale to 47 enterprise tenants, with 10 engineers building on the join engine & CI/CD I own; cut onboarding time by 65% & enabled a 3× customer-count increase in 6 months.",
+      "Engineered the fault-tolerant data plane behind $500M+ in performance marketing spend (100 GB/day ingested from Salesforce, SFTP drops, and custom API pushes) and the conversion event delivery to Google, Meta, and Microsoft powering a 30% average incremental return on ad spend (ROAS) lift across customers.",
+      "Established the team's Terraform IaC foundation across AWS & GCP and co-designed the onboarding spec and workflows that auto-provisions tenants through our internal agent, cutting provisioning from 3–4 days to hours.",
+      "Shipped Sage, an LLM data-analyst agent (DAG orchestration, self-correcting critic loop, per-tenant memory), which answers business data questions in minutes, saving 2 weeks of data discovery per new client.",
+      "Own platform-wide production reliability through centralized log-based alerting, statistical anomaly detection on BigQuery baselines, and infrastructure drift detection, driving MTTR for failure classes from weeks to hours.",
+      "Joined as engineer #3; as the company grew to 30, co-managed 2 engineers, personally onboarded all 8 ML engineers onto the pipeline platform for their per-client deployments, and codified common workflows into knowledge bases and LLM-executable skills so others run them without errors.",
     ],
   },
   {
-    period: "July 2025 – Present",
+    period: "May 2025 – October 2025",
     title: "Software Engineer",
     company: "AGI Labs",
     description: [
@@ -22,13 +25,12 @@ const experiences = [
     ],
   },
   {
-    period: "November 2021 – May 2022",
-    title: "Software Engineer and Co-founder",
+    period: "2021 – 2023",
+    title: "Co-founder, CEO",
     company: "Spindl",
     description: [
-      "Launched multi-chain crypto checkout platform with NFT showcase features, enabling simple link-based transfers and embeddable merchant widgets. (React, Node.js, MongoDB, AWS)",
-      "Deployed with EC2 Auto Scaling + Docker, CI/CD pipelines, and monitoring via Prometheus/Grafana.",
-      "Drove adoption to 10k+ users by pairing technical execution with early viral growth strategies.",
+      "Built and scaled a crypto payments platform to 10k+ users and $50k MRR with shareable payment pages that replaced raw wallet addresses, and supported on-chain tips and donations, NFT galleries, social links, and one-click token minting, plus an embeddable widget for accepting payments anywhere.",
+      "Engineered the TypeScript & Solidity stack with support for Ethereum, Solana, & Bitcoin through pluggable per-chain transfer adapters and network guards behind one interface, wallet-signature authentication unified into a single JWT session model, server-side on-chain payment settlement, and a deployed Merkle-proof airdrop contract.",
     ],
   },
   {
@@ -59,6 +61,25 @@ const experiences = [
       "Co-created 14 IGCSE and 13 CBSE Subject Courses that have been enrolled over 200 times. Organized 60 Lectures & doubt solving sessions.",
       "Created and Gathered Resources for two Websites (prepIGCSE & prepSAT) with 60,000+ Visitors from 130+ Countries.",
     ],
+  },
+]
+
+const awards = [
+  {
+    title: "Winner, Anthropic's Agents Hackathon",
+    description: "Built ImmunAI, red-teaming AI agents with 36 adversarial attack vectors.",
+  },
+  {
+    title: "Winner, Afore Capital's Software Hackathon",
+    description: "Built ReCode, an AI DevOps agent that self-heals production apps.",
+  },
+  {
+    title: "Organizer, AI+ Renaissance Conference 2026",
+    description: "Co-organized a marquee AI conference for 2,000+ attendees.",
+  },
+  {
+    title: "Herman B Wells Scholarship",
+    description: "Full ride four-year scholarship to IU (top 15 per year out of 12k incoming students).",
   },
 ]
 
@@ -98,6 +119,20 @@ export default function ExperiencePage() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-900">Awards &amp; Leadership</h2>
+            <ul className="space-y-4">
+              {awards.map((award, index) => (
+                <li key={index} className="text-gray-600 leading-relaxed flex">
+                  <span className="text-gray-400 mr-3">•</span>
+                  <span>
+                    <span className="font-medium text-gray-900">{award.title}:</span> {award.description}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </main>

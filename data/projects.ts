@@ -2,7 +2,7 @@ export const projects = [
   {
     id: "llm-podcast-clipping",
     title: "LLM-Powered Podcast Clipping",
-    description: "Clippy transforms long podcasts into 10–15 punchy 30–60s clips by combining WhisperX transcription with an LLM that selects the most engaging Q&A and story moments. Active-speaker detection keeps faces perfectly framed while captions are auto-generated and burned in for vertical, social-ready output. A cloud pipeline—S3 storage, Inngest queues, and Modal GPU workers—handles the heavy lifting asynchronously, and a Next.js web app lets users upload, track progress, preview, and download their clips.",
+    description: "Clippy is an end-to-end pipeline turning podcasts into clips: WhisperX transcription, Gemini highlight selection, and active-speaker detection with smoothed face tracking for GPU reframing and caption burn-in. The serverless backend runs on Modal & Inngest with durable workflows, per-user concurrency limits, preloaded models, a cached weight volume for fast cold starts on L40S GPUs, and presigned S3 uploads, and a Next.js web app lets users upload, track progress, preview, and download their clips.",
     color: "bg-orange-200",
     icon: "🎬",
     links: [
@@ -24,7 +24,7 @@ export const projects = [
   {
     id: "distributed-lock-service",
     title: "Distributed Lock Service",
-    description: "Fault-tolerant distributed lock manager in Python on top of etcd cluster with reentrant locks",
+    description: "Fault-tolerant, reentrant distributed lock manager in Python on top of an etcd cluster with auto-renewal and structured logging for distributed job coordination. Benchmarked at 5k+ ops/sec and under 40ms latency on a 3-node deployment, delivered with a Docker Compose setup and a 50+ test suite",
     color: "bg-teal-200",
     icon: "🔒",
     starred: true,
